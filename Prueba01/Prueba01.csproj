@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ChangeString.cs" />
     <Compile Include="CompleteRange.cs" />
+    <Compile Include="MoneyParts.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

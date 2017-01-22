@@ -17,6 +17,10 @@ namespace Prueba01
             Problema02(new List<int> { 4, 2, 9 });
             Problema02(new List<int> { 58, 60, 55 });
 
+            Titulo("Problema 03");
+            Problema03("0.10");
+            Problema03("0.50");
+
             Console.Read();
         }
 
@@ -49,6 +53,28 @@ namespace Prueba01
             foreach (var item in result)
                 Console.Write("{0} ", item);
 
+            Console.WriteLine();
+        }
+
+        static void Problema03(string monto)
+        {
+            Console.WriteLine("El monto a calcular es {0}", monto);
+            var problema03 = new MoneyParts();
+            var result = problema03.Build(monto);
+
+            foreach (var parte in result)
+            {
+                Console.Write("[");
+                var index = 0;
+                foreach (var partecita in parte.Partes)
+                {
+                    index++;
+                    Console.Write(partecita);
+                    if (index != parte.Partes.Count)
+                        Console.Write(", ");
+                }
+                Console.Write("]\t");
+            }
             Console.WriteLine();
         }
     }
