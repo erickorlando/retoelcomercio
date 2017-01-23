@@ -33,7 +33,10 @@ namespace Prueba02.Controllers
         // GET: Sucursales/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new Sucursal();
+            var bancoNegocio = new BancosNegocio();
+            model.BancosList = bancoNegocio.Listar();
+            return View(model);
         }
 
         // POST: Sucursales/Create
