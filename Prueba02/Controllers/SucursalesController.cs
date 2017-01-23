@@ -1,28 +1,27 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Web.Mvc;
 using Prueba02.Entidades.Models;
 using Prueba02.Negocio;
 
 namespace Prueba02.Controllers
 {
-    public class BancosController : Controller
+    public class SucursalesController : Controller
     {
-        private readonly INegocio<Banco> _negocio;
+        private readonly INegocio<Sucursal> _negocio;
 
-        public BancosController()
+        public SucursalesController()
         {
-            _negocio = new BancosNegocio();
+            _negocio = new SucursalesNegocio();
         }
 
-        // GET: Bancos
+        // GET: Sucursales
         public ActionResult Index()
         {
-            var bancos = _negocio.Listar();
-            return View(bancos);
+            var sucursales = _negocio.Listar();
+            return View(sucursales);
         }
 
-        // GET: Bancos/Details/5
+        // GET: Sucursales/Details/5
         public ActionResult Details(int id)
         {
             var model = _negocio.GetById(id);
@@ -31,34 +30,34 @@ namespace Prueba02.Controllers
             return View(model);
         }
 
-        // GET: Bancos/Create
+        // GET: Sucursales/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Bancos/Create
+        // POST: Sucursales/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Direccion,FechaRegistro")] Banco banco)
+        public ActionResult Create([Bind(Include = ("Id, IdBanco, Nombre, Direccion, FechaRegistro"))]Sucursal sucursal)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _negocio.Add(banco);
+                    _negocio.Add(sucursal);
 
                     return RedirectToAction("Index");
                 }
 
-                return View(banco);
+                return View(sucursal);
             }
             catch
             {
-                return View(banco);
+                return View(sucursal);
             }
         }
 
-        // GET: Bancos/Edit/5
+        // GET: Sucursales/Edit/5
         public ActionResult Edit(int id)
         {
             var model = _negocio.GetById(id);
@@ -67,19 +66,19 @@ namespace Prueba02.Controllers
             return View(model);
         }
 
-        // POST: Bancos/Edit/5
+        // POST: Sucursales/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Direccion,FechaRegistro")] Banco banco)
+        public ActionResult Edit([Bind(Include = ("Id, IdBanco, Nombre, Direccion, FechaRegistro"))]Sucursal model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _negocio.Update(banco);
+                    _negocio.Update(model);
 
                     return RedirectToAction("Index");
                 }
-                return View(banco);
+                return View(model);
             }
             catch
             {
@@ -87,7 +86,7 @@ namespace Prueba02.Controllers
             }
         }
 
-        // GET: Bancos/Delete/5
+        // GET: Sucursales/Delete/5
         public ActionResult Delete(int id)
         {
             var model = _negocio.GetById(id);
@@ -96,10 +95,9 @@ namespace Prueba02.Controllers
             return View(model);
         }
 
-        // POST: Bancos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        // POST: Sucursales/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
@@ -107,9 +105,8 @@ namespace Prueba02.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Trace.WriteLine(ex.Message);
                 return View();
             }
         }
