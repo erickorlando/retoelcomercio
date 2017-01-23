@@ -44,7 +44,9 @@
     <Compile Include="BancosRepository.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="OrdenPagoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SucursalesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Prueba02.Entidades\Prueba02.Entidades.csproj">

@@ -15,9 +15,7 @@ namespace Prueba02.Datos
                 using (var cmd = cn.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Banco (Nombre, Direccion, FechaRegistro) VALUES (@Nombre, @Direccion, @FechaRegistro)";
-                    cmd.Parameters.AddWithValue("@Nombre", banco.Nombre);
-                    cmd.Parameters.AddWithValue("@Direccion", banco.Direccion);
-                    cmd.Parameters.AddWithValue("@FechaRegistro", banco.FechaRegistro);
+                    DoInsertUpdate(banco, cmd);
                     cn.Open();
 
                     cmd.ExecuteNonQuery();
@@ -32,15 +30,20 @@ namespace Prueba02.Datos
                 using (var cmd = cn.CreateCommand())
                 {
                     cmd.CommandText = "UPDATE Banco SET Nombre = @Nombre, Direccion = @Direccion, FechaRegistro = @FechaRegistro WHERE IdBanco = @Id";
-                    cmd.Parameters.AddWithValue("@Id", banco.Id);
-                    cmd.Parameters.AddWithValue("@Nombre", banco.Nombre);
-                    cmd.Parameters.AddWithValue("@Direccion", banco.Direccion);
-                    cmd.Parameters.AddWithValue("@FechaRegistro", banco.FechaRegistro);
+                    DoInsertUpdate(banco, cmd);
                     cn.Open();
 
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        private static void DoInsertUpdate(Banco banco, SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@Id", banco.Id);
+            cmd.Parameters.AddWithValue("@Nombre", banco.Nombre);
+            cmd.Parameters.AddWithValue("@Direccion", banco.Direccion);
+            cmd.Parameters.AddWithValue("@FechaRegistro", banco.FechaRegistro);
         }
 
         public Banco GetById(int id)
@@ -57,10 +60,7 @@ namespace Prueba02.Datos
                     {
                         while (dr.Read())
                         {
-                            banco.Id = dr.GetInt32(0);
-                            banco.Nombre = dr.GetString(1);
-                            banco.Direccion = dr.GetString(2);
-                            banco.FechaRegistro = dr.GetDateTime(3);
+                            banco = GetEntity(dr);
                         }
                     }
                 }
@@ -70,7 +70,7 @@ namespace Prueba02.Datos
 
         public void Delete(int id)
         {
-             using (var cn = new SqlConnection(Conexion.BaseDatos))
+            using (var cn = new SqlConnection(Conexion.BaseDatos))
             {
                 using (var cmd = cn.CreateCommand())
                 {
@@ -96,13 +96,7 @@ namespace Prueba02.Datos
                     {
                         while (dr.Read())
                         {
-                            lista.Add(new Banco
-                            {
-                                Id = dr.GetInt32(0),
-                                Nombre = dr.GetString(1),
-                                Direccion = dr.GetString(2),
-                                FechaRegistro = dr.GetDateTime(3)
-                            });
+                            lista.Add(GetEntity(dr));
                         }
                     }
                 }
@@ -110,5 +104,15 @@ namespace Prueba02.Datos
             return lista;
         }
 
+        private static Banco GetEntity(SqlDataReader dr)
+        {
+            return new Banco
+            {
+                Id = dr.GetInt32(0),
+                Nombre = dr.GetString(1),
+                Direccion = dr.GetString(2),
+                FechaRegistro = dr.GetDateTime(3)
+            };
+        }
     }
 }
