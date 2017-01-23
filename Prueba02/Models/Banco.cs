@@ -1,12 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Prueba02.Models
 {
     public class Banco
     {
-        public int IdBanco { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string Nombre { get; set; }
+
+        [Required]
+        [MaxLength(150)]
         public string Direccion { get; set; }
+
         public DateTime FechaRegistro { get; set; }
     }
 }
